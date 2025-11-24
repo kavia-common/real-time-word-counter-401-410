@@ -1,13 +1,31 @@
 /* CSS Variables for Theme Management */
 :root {
-  /* Light theme colors */
+  /* Light theme colors & app-specific accents */
   --bg-primary: #ffffff;
   --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
+  --text-primary: #111827;
+  --text-secondary: #64748b;
   --border-color: #e9ecef;
-  --button-bg: #007bff;
+  --button-bg: #3b82f6;         /* Primary Accent */
+  --button-success-bg: #06b6d4; /* Success Accent */
   --button-text: #ffffff;
+  --input-border: #3b82f6;
+  --input-focus: #06b6d4;
+  --card-bg: #f8fafc;
+}
+
+[data-theme="dark"] {
+  /* Dark theme colors */
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #282c34;
+  --text-primary: #ffffff;
+  --text-secondary: #61dafb;
+  --border-color: #404040;
+  --button-bg: #0056b3;
+  --button-text: #ffffff;
+  --input-border: #06b6d4;
+  --input-focus: #3b82f6;
+  --card-bg: #212840;
 }
 
 [data-theme="dark"] {
