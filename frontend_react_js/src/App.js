@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
+import Button from "./components/Button";
 
 /**
  * PUBLIC_INTERFACE
@@ -73,27 +74,7 @@ function App() {
   const primary = "#3b82f6";
   const success = "#06b6d4";
 
-  // Inline style for Copied! feedback badge/button
-  const copyBtnStyle = {
-    backgroundColor: primary,
-    color: "#fff",
-    border: "none",
-    borderRadius: "6px",
-    fontWeight: 600,
-    padding: "0.5rem 1.2rem",
-    fontSize: "1rem",
-    marginLeft: "0.75rem",
-    outline: "none",
-    transition: "box-shadow 0.2s",
-    boxShadow: "0 2px 12px rgba(59,130,246,0.06)",
-    cursor: "pointer"
-  };
-
-  const copySuccessStyle = {
-    ...copyBtnStyle,
-    backgroundColor: success,
-    color: "#fff"
-  };
+  // Styles for the accent colors are now in Button component.
 
   return (
     <div className="App" style={{ minHeight: "100vh", background: "#fff" }}>
@@ -226,20 +207,15 @@ function App() {
             </div>
           </div>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <button
+            <Button
               type="button"
-              style={copyStatus ? copySuccessStyle : copyBtnStyle}
-              onClick={handleCopy}
+              variant={copyStatus ? "success" : "primary"}
+              size="md"
               aria-label="Copy all text to clipboard"
-              tabIndex={0}
-              onKeyDown={e => {
-                if ((e.key === "Enter" || e.key === " ") && !e.repeat) {
-                  handleCopy();
-                }
-              }}
+              onClick={handleCopy}
             >
               {copyStatus ? copyStatus : "Copy"}
-            </button>
+            </Button>
           </div>
         </form>
         <div
