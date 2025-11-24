@@ -120,3 +120,20 @@
     font-size: 12px;
   }
 }
+
+/* Navbar extra styles (scoped) */
+.kavia-navbar {
+  box-sizing: border-box;
+}
+.kavia-navbar-menu-panel {
+  background: #fff;
+  transition: box-shadow 0.14s;
+  box-shadow: 0 8px 32px rgba(59,130,246,0.11), 0 1.5px 8px #e5e7eb8c;
+}
+@media (max-width: 439px) {
+  .kavia-navbar-menu-panel {
+    min-width: 138px;
+    right: 4px !important;
+    padding: 0.5rem 0.09rem;
+  }
+}

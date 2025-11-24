@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import Button from "./components/Button";
+import Navbar from "./components/Navbar";
 
 /**
  * PUBLIC_INTERFACE
@@ -78,6 +79,8 @@ function App() {
 
   return (
     <div className="App" style={{ minHeight: "100vh", background: "#fff" }}>
+      {/* Navbar at very top */}
+      <Navbar />
       <header
         className="App-header"
         style={{
