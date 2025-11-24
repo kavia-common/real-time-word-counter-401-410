@@ -3,93 +3,105 @@ import Button from "./Button";
 
 /**
  * PUBLIC_INTERFACE
- * Responsive, accessible Navbar for Real-Time Word Counter.
- * - App title (left), right-aligned actions (theme placeholder, info link).
- * - Collapsible menu on mobile.
- * - Uses Button component for actions.
- * - Light-theme, modern accent styling.
+ * Minimal, responsive Navbar for Word Counter.
+ * - Left: App title ("Word Counter").
+ * - Right: 3 short links (Home, How it works, GitHub).
+ * - Collapses to a compact menu on mobile.
+ * - Consistent with #3b82f6/#06b6d4 light theme.
  */
 function Navbar() {
-  const [open, setOpen] = useState(false);
-  const menuButtonRef = useRef(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const menuBtnRef = useRef(null);
 
-  // Close menu when clicking outside or pressing Escape
+  // Closes menu when clicking outside or Escape is pressed
   useEffect(() => {
-    function handleDocumentClick(e) {
+    function onDocClick(e) {
       if (
-        open &&
+        menuOpen &&
         menuRef.current &&
         !menuRef.current.contains(e.target) &&
-        menuButtonRef.current &&
-        !menuButtonRef.current.contains(e.target)
+        menuBtnRef.current &&
+        !menuBtnRef.current.contains(e.target)
       ) {
-        setOpen(false);
+        setMenuOpen(false);
       }
     }
-    function handleEscape(e) {
-      if (e.key === "Escape") setOpen(false);
+    function onEscape(e) {
+      if (e.key === "Escape") setMenuOpen(false);
     }
-    document.addEventListener("mousedown", handleDocumentClick);
-    document.addEventListener("keydown", handleEscape);
+    document.addEventListener("mousedown", onDocClick);
+    document.addEventListener("keydown", onEscape);
     return () => {
-      document.removeEventListener("mousedown", handleDocumentClick);
-      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("mousedown", onDocClick);
+      document.removeEventListener("keydown", onEscape);
     };
-  }, [open]);
+  }, [menuOpen]);
 
-  // Keyboard focus on menu items
-  useEffect(() => {
-    if (open && menuRef.current) {
-      // Focus first focusable child
-      const firstBtn = menuRef.current.querySelector("button, a, [tabindex='0']");
-      if (firstBtn) firstBtn.focus();
-    }
-  }, [open]);
-
-  // Placeholder theme toggle handler
-  function handleThemeClick() {
-    // Could emit event or use context/hook in a real app
-    alert("Theme switcher not implemented in navbar (see header button).");
-  }
-
-  // Navbar colors (matching style guide)
-  const navbarStyles = {
-    wrapper: {
+  // Styling
+  const styles = {
+    navWrap: {
       width: "100%",
       background: "#fff",
       borderBottom: "1.5px solid #e5e7eb",
-      boxShadow: "0 2px 8px rgba(59,130,246,0.04)",
+      boxShadow: "0 2px 8px rgba(59,130,246,0.045)",
       position: "sticky",
       top: 0,
-      zIndex: 20,
-      minHeight: "60px",
-      paddingLeft: 0,
-      paddingRight: 0,
-      transition: "background 0.23s, box-shadow 0.17s",
+      zIndex: 30,
+      minHeight: 54,
     },
     nav: {
-      maxWidth: 980,
+      maxWidth: 940,
       margin: "0 auto",
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      minHeight: "60px",
-      padding: "0 1rem"
+      minHeight: 52,
+      padding: "0 1.25em",
     },
     title: {
       color: "#3b82f6",
       fontWeight: 800,
-      fontSize: "1.45rem",
+      fontSize: "1.29rem",
       letterSpacing: ".01em",
-      margin: 0
+      margin: 0,
+      textDecoration: "none",
+      userSelect: "none"
     },
-    actions: {
+    navList: {
       display: "flex",
       alignItems: "center",
-      gap: "0.5rem"
+      gap: "0.30rem"
     },
-    mobileMenuButton: {
+    navLink: {
+      color: "#3b82f6",
+      background: "none",
+      border: "none",
+      padding: "5px 14px",
+      margin: 0,
+      fontWeight: 600,
+      fontSize: "1.002em",
+      borderRadius: "6px",
+      transition: "background 0.16s, color 0.16s",
+      textDecoration: "none",
+      cursor: "pointer",
+      outline: "none"
+    },
+    githubBtn: {
+      color: "#fff",
+      background: "#06b6d4",
+      border: "none",
+      padding: "5px 15px",
+      marginLeft: "0.22em",
+      fontWeight: 600,
+      fontSize: "1em",
+      borderRadius: "6px",
+      textDecoration: "none",
+      transition: "background 0.16s, color 0.16s",
+      boxShadow: "0 1px 6px rgba(6,182,212,0.09)",
+      outline: "none"
+    },
+    mobileBtn: {
       background: "none",
       border: "none",
       color: "#3b82f6",
@@ -97,38 +109,36 @@ function Navbar() {
       padding: "0.28em 0.38em",
       display: "flex",
       alignItems: "center",
-      borderRadius: "7px",
+      borderRadius: "6px",
       transition: "background 0.16s",
       cursor: "pointer",
       outline: "none",
     },
-    // Expanded menu panel for mobile
-    mobileMenuPanel: {
+    mobileMenu: {
       position: "absolute",
       top: "100%",
-      right: 12,
-      minWidth: 180,
+      right: 14,
+      minWidth: 150,
       background: "#fff",
       border: "1px solid #e5e7eb",
-      borderRadius: 10,
-      marginTop: 8,
-      boxShadow: "0 8px 32px rgba(59,130,246,0.10)",
+      borderRadius: 9,
+      marginTop: 7,
+      boxShadow: "0 8px 28px rgba(59,130,246,0.09)",
       zIndex: 1001,
-      padding: "0.7rem 0.25rem",
+      padding: "0.7rem 0.2rem",
       display: "flex",
       flexDirection: "column",
-      gap: "0.5rem",
-      animation: "navbarSlideDown 0.18s ease",
+      gap: "0.2rem",
+      animation: "navbarSlideDown 0.17s cubic-bezier(.53,.01,.4,1)"
     }
   };
 
-  // Media query to hide/show actions for mobile
-  // Using window.matchMedia isn't reliable in SSR; use CSS below.
-
+  // For client-side routing fallback if react-router added in future, currently we use simple anchor.
+  // If more complex routing comes, replace <a> with <Link>.
   return (
     <nav
       aria-label="Main navigation"
-      style={navbarStyles.wrapper}
+      style={styles.navWrap}
       className="kavia-navbar"
       data-testid="navbar"
     >
@@ -137,127 +147,139 @@ function Navbar() {
           font-family: inherit;
           box-sizing: border-box;
         }
-        @media (max-width: 660px) {
-          .kavia-navbar-actions {
+        @media (max-width: 680px) {
+          .nav-list-desktop {
             display: none !important;
           }
-          .kavia-navbar-mobile-btn {
+          .navbar-mobile-btn {
             display: flex !important;
           }
         }
-        @media (min-width: 661px) {
-          .kavia-navbar-mobile-btn {
+        @media (min-width: 681px) {
+          .navbar-mobile-btn {
             display: none !important;
           }
         }
-        @media (max-width: 459px) {
+        @media (max-width: 480px) {
           .kavia-navbar-title {
-            font-size: 1.1rem !important;
+            font-size: 1.03rem !important;
           }
         }
         .kavia-navbar-menu-panel:focus {
           outline: 2px solid #3b82f6;
-          outline-offset: 4px;
+          outline-offset: 3px;
         }
         @keyframes navbarSlideDown {
-          from { opacity: 0; transform: translateY(-6px);}
+          from { opacity: 0; transform: translateY(-8px);}
           to { opacity: 1; transform: translateY(0);}
         }
       `}</style>
-      <div style={navbarStyles.nav}>
+      <div style={styles.nav}>
         <a
           href="/"
-          style={navbarStyles.title}
+          style={styles.title}
           className="kavia-navbar-title"
           tabIndex={0}
+          aria-label="Go to home"
         >
-          Real-Time Word Counter
+          Word Counter
         </a>
-        {/* Desktop actions */}
-        <div
-          style={navbarStyles.actions}
-          className="kavia-navbar-actions"
-        >
-          <Button
-            variant="ghost"
-            size="sm"
-            aria-label="Switch theme"
-            onClick={handleThemeClick}
-          >
-            <span aria-hidden="true" style={{ fontSize: "1.2em" }}>🌗</span>
-            <span style={{ marginLeft: 6, fontWeight: 600, color: "#64748b" }}>Theme</span>
-          </Button>
-          <Button
-            as="a"
-            href="https://github.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="secondary"
-            size="sm"
-            style={{ minWidth: 44 }}
-            aria-label="Info or source"
-          >
-            <span aria-hidden="true" style={{ fontSize: "1.23em", marginRight: 5 }}>ℹ️</span>
-            Info
-          </Button>
-        </div>
-        {/* Mobile: menu button */}
+        {/* Desktop nav */}
+        <ul style={styles.navList} className="nav-list-desktop">
+          <li>
+            <a
+              href="/"
+              style={styles.navLink}
+              aria-label="Home"
+              tabIndex={0}
+            >
+              Home
+            </a>
+          </li>
+          <li>
+            <a
+              href="#how"
+              style={styles.navLink}
+              aria-label="How it works"
+              tabIndex={0}
+            >
+              How it works
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://github.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={styles.githubBtn}
+              aria-label="GitHub repo"
+              tabIndex={0}
+            >
+              GitHub
+            </a>
+          </li>
+        </ul>
+        {/* Mobile hamburger button */}
         <button
           type="button"
-          ref={menuButtonRef}
-          aria-label={open ? "Close menu" : "Open menu"}
-          className="kavia-navbar-mobile-btn"
-          style={navbarStyles.mobileMenuButton}
+          ref={menuBtnRef}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          className="navbar-mobile-btn"
+          style={styles.mobileBtn}
           aria-haspopup="true"
-          aria-expanded={open}
+          aria-expanded={menuOpen}
           aria-controls="navbar-menu-panel"
           tabIndex={0}
-          onClick={() => setOpen(o => !o)}
+          onClick={() => setMenuOpen(x => !x)}
           data-testid="navbar-menu-btn"
         >
-          {/* Hamburger (closed) or X (open) icon */}
-          {open ? (
+          {menuOpen ? (
             <span aria-hidden="true" style={{ fontSize: "2.1rem" }}>✕</span>
           ) : (
             <span aria-hidden="true" style={{ fontSize: "2.1rem" }}>☰</span>
           )}
         </button>
-        {/* Mobile: menu panel */}
-        {open && (
+        {/* Mobile menu panel */}
+        {menuOpen && (
           <div
             id="navbar-menu-panel"
             className="kavia-navbar-menu-panel"
             ref={menuRef}
-            style={navbarStyles.mobileMenuPanel}
+            style={styles.mobileMenu}
             role="menu"
             aria-label="Mobile navigation"
             tabIndex={-1}
             data-testid="navbar-mobile-menu"
           >
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => { setOpen(false); handleThemeClick(); }}
-              style={{ width: "100%", textAlign: "left" }}
+            <a
+              href="/"
+              aria-label="Home"
+              style={{ ...styles.navLink, marginBottom: 2, width: "100%" }}
               tabIndex={0}
+              onClick={() => setMenuOpen(false)}
             >
-              <span aria-hidden="true" style={{ fontSize: "1.2em" }}>🌗</span>
-              <span style={{ marginLeft: 7, color: "#64748b" }}>Theme</span>
-            </Button>
-            <Button
-              as="a"
+              Home
+            </a>
+            <a
+              href="#how"
+              aria-label="How it works"
+              style={{ ...styles.navLink, marginBottom: 2, width: "100%" }}
+              tabIndex={0}
+              onClick={() => setMenuOpen(false)}
+            >
+              How it works
+            </a>
+            <a
               href="https://github.com/"
               target="_blank"
               rel="noopener noreferrer"
-              variant="secondary"
-              size="sm"
+              aria-label="GitHub repo"
+              style={{ ...styles.githubBtn, marginBottom: 0, width: "100%" }}
               tabIndex={0}
-              style={{ width: "100%", textAlign: "left", marginTop: 3 }}
-              onClick={() => setOpen(false)}
+              onClick={() => setMenuOpen(false)}
             >
-              <span aria-hidden="true" style={{ fontSize: "1.17em", marginRight: 7 }}>ℹ️</span>
-              Info
-            </Button>
+              GitHub
+            </a>
           </div>
         )}
       </div>

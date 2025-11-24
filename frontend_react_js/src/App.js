@@ -115,6 +115,7 @@ function App() {
           Real-Time Word Counter
         </h1>
         <p
+          id="how"
           style={{
             fontSize: "1.05rem",
             color: "#64748b",
